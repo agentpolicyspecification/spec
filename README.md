@@ -25,6 +25,19 @@ examples/      Example policies (Rego and programmatic)
 | [Enforcement Contract](spec/enforcement-contract.md) | Decision actions and runtime obligations | Draft |
 | [Policy Authoring](spec/policy-authoring.md) | Writing policies in Rego and programmatic rules | Draft |
 
+## Schemas
+
+JSON Schema (draft 2020-12) definitions for all APS data models:
+
+| Schema | Description |
+|---|---|
+| [input-context.schema.json](schemas/input-context.schema.json) | `InputContext` — payload at the Input Interception point |
+| [tool-call-context.schema.json](schemas/tool-call-context.schema.json) | `ToolCallContext` — payload at the Tool Call Interception point |
+| [output-context.schema.json](schemas/output-context.schema.json) | `OutputContext` — payload at the Output Interception point |
+| [policy-decision.schema.json](schemas/policy-decision.schema.json) | `PolicyDecision` — the result produced by any policy evaluation |
+
+Schemas are published at `https://agentpolicyspecification.github.io/schemas/` once the GitHub Pages site is live.
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for how to propose changes, raise issues, or discuss design decisions.
