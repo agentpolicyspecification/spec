@@ -16,7 +16,7 @@
 
 - Use `MUST`, `SHOULD`, `MAY`, `MUST NOT` in the RFC 2119 sense
 - Mark every document with a status line: `DRAFT`, `STABLE`, or `DEPRECATED`
-- Keep examples minimal and concrete — one Rego example and one programmatic example per concept is enough
+- Keep examples minimal and concrete — one Rego example and one  example per concept is enough
 
 ## What We're Not Accepting Yet
 

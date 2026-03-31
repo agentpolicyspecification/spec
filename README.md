@@ -11,7 +11,7 @@ APS is in active design. Sections marked `[DRAFT]` are open for discussion. Sect
 ```
 spec/          Core specification documents
 schemas/       JSON Schema definitions for APS data models
-examples/      Example policies (Rego and programmatic)
+examples/      Example policies (Rego and Runtime)
 ```
 
 ## Specification Documents
@@ -23,7 +23,7 @@ examples/      Example policies (Rego and programmatic)
 | [Tool Call Policy](spec/tool-call-policy.md) | Policy enforcement on tool invocations | Draft |
 | [Output Policy](spec/output-policy.md) | Policy enforcement on model output | Draft |
 | [Enforcement Contract](spec/enforcement-contract.md) | Decision actions and runtime obligations | Draft |
-| [Policy Authoring](spec/policy-authoring.md) | Writing policies in Rego and programmatic rules | Draft |
+| [Policy Authoring](spec/policy-authoring.md) | Writing policies in Rego and runtime rules | Draft |
 
 ## Schemas
 
