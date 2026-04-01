@@ -10,7 +10,6 @@
     "messages": {
       "type": "array",
       "description": "The ordered message history to be forwarded to the LLM runtime.",
-      "minItems": 1,
       "items": {
         "$ref": "#/$defs/Message"
       }
