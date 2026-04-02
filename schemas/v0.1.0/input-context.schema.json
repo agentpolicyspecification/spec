@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentpolicyspecification.github.io/schemas/v0.1.0/input-context.schema.json",
+  "title": "InputContext",
+  "description": "The evaluation input provided to policies at the Input Interception point.",
+  "allOf": [{ "$ref": "./base.schema.json" }],
+  "type": "object",
+  "required": ["messages", "metadata"],
+  "additionalProperties": false,
+  "properties": {
+    "messages": {
+      "type": "array",
+      "description": "The ordered message history to be forwarded to the LLM runtime.",
+      "items": {
+        "$ref": "./base.schema.json#/$defs/Message"
+      }
+    },
+    "metadata": {
+      "$ref": "./base.schema.json#/$defs/Metadata"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentpolicyspecification.github.io/schemas/v0.1.0/tool-call-context.schema.json",
+  "title": "ToolCallContext",
+  "description": "The evaluation input provided to policies at the Tool Call Interception point.",
+  "allOf": [{ "$ref": "./base.schema.json" }],
+  "type": "object",
+  "required": ["tool_name", "arguments", "calling_message", "metadata"],
+  "additionalProperties": false,
+  "properties": {
+    "tool_name": {
+      "type": "string",
+      "description": "The name of the tool the LLM has requested to invoke."
+    },
+    "arguments": {
+      "type": "object",
+      "description": "The arguments provided by the LLM for the tool invocation.",
+      "additionalProperties": true
+    },
+    "calling_message": {
+      "$ref": "./base.schema.json#/$defs/AssistantMessage"
+    },
+    "metadata": {
+      "$ref": "./base.schema.json#/$defs/Metadata"
+    }
+  }
+}

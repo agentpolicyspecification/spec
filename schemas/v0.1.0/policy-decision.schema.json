@@ -1,8 +1,9 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://agentpolicyspecification.github.io/schemas/policy-decision.schema.json",
+  "$id": "https://agentpolicyspecification.github.io/schemas/v0.1.0/policy-decision.schema.json",
   "title": "PolicyDecision",
   "description": "The result produced by a policy evaluation at any interception point.",
+  "allOf": [{ "$ref": "./base.schema.json" }],
   "type": "object",
   "required": ["decision"],
   "oneOf": [
@@ -118,8 +119,7 @@
                 "description": "Dot-notation path to the field to transform."
               },
               "value": {
-                "description": "The value to apply. Type must match the target field.",
-                "tsType": "unknown"
+                "description": "The value to apply. Type must match the target field."
               }
             }
           }

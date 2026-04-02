@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentpolicyspecification.github.io/schemas/v0.1.0/output-context.schema.json",
+  "title": "OutputContext",
+  "description": "The evaluation input provided to policies at the Output Interception point.",
+  "allOf": [{ "$ref": "./base.schema.json" }],
+  "type": "object",
+  "required": ["response", "metadata"],
+  "additionalProperties": false,
+  "properties": {
+    "response": {
+      "$ref": "./base.schema.json#/$defs/AssistantMessage"
+    },
+    "metadata": {
+      "$ref": "./base.schema.json#/$defs/Metadata"
+    }
+  }
+}

@@ -1,14 +1,15 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://agentpolicyspecification.github.io/spec/schemas/dsl-policy.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentpolicyspecification.github.io/schemas/v0.1.0/dsl-policy.schema.json",
   "title": "DSLPolicy",
   "description": "A single Agent Policy Specification DSL policy rule",
+  "allOf": [{ "$ref": "./base.schema.json" }],
   "type": "object",
   "required": ["condition", "action"],
   "additionalProperties": false,
   "properties": {
     "condition": {
-      "$ref": "#/definitions/Condition"
+      "$ref": "#/$defs/Condition"
     },
     "action": {
       "type": "string",
@@ -33,15 +34,15 @@
   "then": {
     "required": ["transformation"]
   },
-  "definitions": {
+  "$defs": {
     "Condition": {
       "description": "A condition that is evaluated against the context",
       "oneOf": [
-        { "$ref": "#/definitions/EqualsCondition" },
-        { "$ref": "#/definitions/ContainsCondition" },
-        { "$ref": "#/definitions/NotInCondition" },
-        { "$ref": "#/definitions/GreaterThanCondition" },
-        { "$ref": "#/definitions/AlwaysCondition" }
+        { "$ref": "#/$defs/EqualsCondition" },
+        { "$ref": "#/$defs/ContainsCondition" },
+        { "$ref": "#/$defs/NotInCondition" },
+        { "$ref": "#/$defs/GreaterThanCondition" },
+        { "$ref": "#/$defs/AlwaysCondition" }
       ]
     },
     "EqualsCondition": {
