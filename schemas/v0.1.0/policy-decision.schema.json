@@ -19,7 +19,11 @@
       "required": ["decision"],
       "additionalProperties": false,
       "properties": {
-        "decision": { "type": "string", "const": "allow" }
+        "decision": { "type": "string", "const": "allow" },
+        "audit": {
+          "type": "boolean",
+          "description": "When true, an audit record is also produced for this interaction."
+        }
       }
     },
     "DenyDecision": {
@@ -35,6 +39,10 @@
         "policy_id": {
           "type": "string",
           "description": "Identifier of the policy that produced this denial."
+        },
+        "audit": {
+          "type": "boolean",
+          "description": "When true, an audit record is also produced for this interaction."
         }
       }
     },
@@ -48,6 +56,10 @@
           "type": "array",
           "minItems": 1,
           "items": { "$ref": "#/$defs/Redaction" }
+        },
+        "audit": {
+          "type": "boolean",
+          "description": "When true, an audit record is also produced for this interaction."
         }
       }
     },
@@ -57,13 +69,18 @@
       "additionalProperties": false,
       "properties": {
         "decision": { "type": "string", "const": "transform" },
-        "transformation": { "$ref": "#/$defs/Transformation" }
+        "transformation": { "$ref": "#/$defs/Transformation" },
+        "audit": {
+          "type": "boolean",
+          "description": "When true, an audit record is also produced for this interaction."
+        }
       }
     },
     "AuditDecision": {
       "type": "object",
       "required": ["decision"],
       "additionalProperties": false,
+      "description": "Produces only an audit record; the interaction proceeds unchanged.",
       "properties": {
         "decision": { "type": "string", "const": "audit" },
         "reason": {
