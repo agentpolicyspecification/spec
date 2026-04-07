@@ -3,7 +3,6 @@
   "$id": "https://agentpolicyspecification.github.io/schemas/v0.1.0/policy-set.schema.json",
   "title": "PolicySet",
   "description": "A policy set targeting a specific policy engine and execution transport. The `type` field selects the engine; `transport` and `source` configure how the policy is loaded/evaluated. Inline DSL rules are provided via `policies` (only valid for type 'dsl').",
-  "allOf": [{ "$ref": "./base.schema.json" }],
   "type": "object",
   "required": ["aps_version", "type"],
   "additionalProperties": false,
@@ -29,6 +28,7 @@
     }
   },
   "allOf": [
+    { "$ref": "./base.schema.json" },
     {
       "description": "DSL type: requires inline policies array; transport must be 'file' (default) or 'http' (non-standard).",
       "if": { "properties": { "type": { "const": "dsl" } } },
@@ -150,7 +150,7 @@
     },
     "PolicyEntry": {
       "title": "PolicyEntry",
-      "description": "A DSL policy rule with optional scope restrictions. Only used when type is 'dsl'.",
+      "description": "A DSL policy rule with optional scope restrictions. Only used when type is 'dsl'. When action is 'transform', transformation is required. When action is 'redact', redactions is required.",
       "type": "object",
       "required": ["condition", "action"],
       "additionalProperties": false,
@@ -221,17 +221,7 @@
           },
           "uniqueItems": true
         }
-      },
-      "allOf": [
-        {
-          "if": { "properties": { "action": { "const": "transform" } } },
-          "then": { "required": ["transformation"] }
-        },
-        {
-          "if": { "properties": { "action": { "const": "redact" } } },
-          "then": { "required": ["redactions"] }
-        }
-      ]
+      }
     },
     "Condition": {
       "description": "A condition evaluated against the context",
