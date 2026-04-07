@@ -2,10 +2,10 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://agentpolicyspecification.github.io/schemas/v0.1.0/policy-set.schema.json",
   "title": "PolicySet",
-  "description": "A collection of DSL policies with interception point and tool scope bindings",
+  "description": "A policy set targeting a specific policy engine and execution transport. The `type` field selects the engine; `transport` and `source` configure how the policy is loaded/evaluated. Inline DSL rules are provided via `policies` (only valid for type 'dsl').",
   "allOf": [{ "$ref": "./base.schema.json" }],
   "type": "object",
-  "required": ["aps_version", "policies"],
+  "required": ["aps_version", "type"],
   "additionalProperties": false,
   "properties": {
     "aps_version": {
@@ -13,16 +13,144 @@
       "description": "The APS specification version this policy set targets (e.g. '0.1.0').",
       "pattern": "^\\d+\\.\\d+\\.\\d+$"
     },
+    "type": {
+      "$ref": "./base.schema.json#/$defs/PolicyType"
+    },
+    "transport": {
+      "$ref": "./base.schema.json#/$defs/Transport"
+    },
+    "source": {
+      "$ref": "#/$defs/PolicySource"
+    },
     "policies": {
       "type": "array",
-      "description": "The list of policies in this set",
+      "description": "Inline DSL policy rules. Only valid when type is 'dsl'.",
       "items": { "$ref": "#/$defs/PolicyEntry" }
     }
   },
+  "allOf": [
+    {
+      "description": "DSL type: requires inline policies array; transport must be 'file' (default) or 'http' (non-standard).",
+      "if": { "properties": { "type": { "const": "dsl" } } },
+      "then": {
+        "required": ["policies"],
+        "properties": {
+          "transport": { "enum": ["file", "http"] }
+        }
+      }
+    },
+    {
+      "description": "Rego type: requires source and transport; transport restricted to file, http, or wasm.",
+      "if": { "properties": { "type": { "const": "rego" } } },
+      "then": {
+        "required": ["transport", "source"],
+        "properties": {
+          "transport": { "enum": ["file", "http", "wasm"] }
+        }
+      }
+    },
+    {
+      "description": "Cedar type: requires source and transport; transport restricted to file or http.",
+      "if": { "properties": { "type": { "const": "cedar" } } },
+      "then": {
+        "required": ["transport", "source"],
+        "properties": {
+          "transport": { "enum": ["file", "http"] }
+        }
+      }
+    },
+    {
+      "description": "CEL type: requires source; only file transport is supported.",
+      "if": { "properties": { "type": { "const": "cel" } } },
+      "then": {
+        "required": ["transport", "source"],
+        "properties": {
+          "transport": { "const": "file" }
+        }
+      }
+    },
+    {
+      "description": "Casbin type: requires source; only file transport is supported.",
+      "if": { "properties": { "type": { "const": "casbin" } } },
+      "then": {
+        "required": ["transport", "source"],
+        "properties": {
+          "transport": { "const": "file" }
+        }
+      }
+    },
+    {
+      "description": "LLM type: requires source; only http transport is supported (remote by nature).",
+      "if": { "properties": { "type": { "const": "llm" } } },
+      "then": {
+        "required": ["transport", "source"],
+        "properties": {
+          "transport": { "const": "http" }
+        }
+      }
+    },
+    {
+      "description": "Runtime type: always in-process; transport must be 'runtime' and source must be a RuntimeSource.",
+      "if": { "properties": { "type": { "const": "runtime" } } },
+      "then": {
+        "required": ["transport", "source"],
+        "properties": {
+          "transport": { "const": "runtime" },
+          "source": { "$ref": "./base.schema.json#/$defs/RuntimeSource" }
+        }
+      }
+    },
+    {
+      "description": "File transport requires a FileSource.",
+      "if": { "properties": { "transport": { "const": "file" } } },
+      "then": {
+        "properties": {
+          "source": { "$ref": "./base.schema.json#/$defs/FileSource" }
+        }
+      }
+    },
+    {
+      "description": "HTTP transport requires an HttpSource.",
+      "if": { "properties": { "transport": { "const": "http" } } },
+      "then": {
+        "properties": {
+          "source": { "$ref": "./base.schema.json#/$defs/HttpSource" }
+        }
+      }
+    },
+    {
+      "description": "Wasm transport requires a WasmSource.",
+      "if": { "properties": { "transport": { "const": "wasm" } } },
+      "then": {
+        "properties": {
+          "source": { "$ref": "./base.schema.json#/$defs/WasmSource" }
+        }
+      }
+    },
+    {
+      "description": "Stdio transport requires a StdioSource.",
+      "if": { "properties": { "transport": { "const": "stdio" } } },
+      "then": {
+        "properties": {
+          "source": { "$ref": "./base.schema.json#/$defs/StdioSource" }
+        }
+      }
+    }
+  ],
   "$defs": {
+    "PolicySource": {
+      "description": "Source configuration for loading or reaching the policy evaluator. The required shape is determined by the transport field.",
+      "oneOf": [
+        { "$ref": "./base.schema.json#/$defs/FileSource" },
+        { "$ref": "./base.schema.json#/$defs/HttpSource" },
+        { "$ref": "./base.schema.json#/$defs/WasmSource" },
+        { "$ref": "./base.schema.json#/$defs/StdioSource" },
+        { "$ref": "./base.schema.json#/$defs/RuntimeSource" }
+      ]
+    },
     "PolicyEntry": {
       "title": "PolicyEntry",
-      "description": "A DSL policy rule with optional scope restrictions",
+      "description": "A DSL policy rule with optional scope restrictions. Only used when type is 'dsl'.",
       "type": "object",
       "required": ["condition", "action"],
       "additionalProperties": false,
